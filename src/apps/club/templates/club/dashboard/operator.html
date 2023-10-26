@@ -1,0 +1,146 @@
+{% extends 'base/base_template.html' %}
+{% load static %}
+
+{% block Title %}
+    داشبورد اپراتور
+{% endblock %}
+
+{% block Link %}
+    <link rel="stylesheet" href="{% static 'styles/main.css' %}">
+{% endblock %}
+
+{% block Content %}
+    <div class="container">
+        <main class="main" style="padding-bottom:10px ;">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="main-title">پنل اپراتور</h5>
+                <a href="{% url 'account:logout' %}" class="text-decoration-none btn btn-outline-danger">
+                    خروج
+                    <i class="fa fa-sign-out-alt"></i>
+                </a>
+            </div>
+            <hr>
+            <h5>ثبت تراکنش و خرید</h5>
+            <form action="{% url 'club:transaction_add' %}" method="post" class="main-form p-2">
+                {% csrf_token %}
+                <div class="form-up">
+                    <div class="col-12 col-md-3 p-1">
+                        <div class="form-item">
+                            <div class="input-title">نام :</div>
+                            <input type="text" name="first_name">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3 p-1">
+                        <div class="form-item">
+                            <div class="input-title">نام خانوادگی :</div>
+                            <input type="text" name="last_name">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3 p-1">
+                        <div class="form-item">
+                            <div class="input-title">شماره موبایل:</div>
+                            <input type="text" name="phonenumber" required>
+
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3 p-1">
+                        <div class="form-item">
+                            <div class="input-title">مبلغ خرید:</div>
+                            <input type="number" name="amount" required>
+                        </div>
+                    </div>
+                    <div class="col-12 p-1" style="display:flex ;align-items: end;justify-content: start;">
+                        <div class="register-btn">
+                            <button class="register">ثبت</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <hr>
+            <h5 class="mb-4">جست و جوی کاربر</h5>
+            <form class="form-search">
+                <input
+                        type="text"
+                        name="search"
+                        class="input-search"
+                        placeholder="شماره همراه"
+                        value="{{ request.GET.search }}"
+                />
+                <button class="btn-search text-white">
+                    <i class="fa fa-search"></i>
+                </button>
+            </form>
+            {% if user_searched %}
+                <section class="user-information p-2">
+                    <div class="d-flex flex-wrap">
+                        <div class="col-12 col-md-3 p-1">
+                            <div class="user-information-item">
+                                <span class="title">شماره مشتری:</span>
+                                <span>{{ user_searched.get_number_id }}</span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3 p-1">
+                            <div class="user-information-item">
+                                <span class="title">نام و نام خانوادگی:</span>
+                                <span>{{ user_searched.get_full_name }}</span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3 p-1">
+                            <div class="user-information-item">
+                                <span class="title">شماره همراه:</span>
+                                <span>{{ user_searched.get_raw_phonenumber }}</span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3 p-1">
+                            <div class="user-information-item">
+                                <span class="title">جمع کیف پول:</span>
+                                <span>
+                                    <span class="price-el">{{ user_searched.get_wallet.amount }}</span>
+                                    <span>تومان</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="table-two col-12 col-lg-12 ">
+                    <table class="table">
+                        <tr>
+                            <th>کد تراکنش</th>
+                            <th>تاریخ خرید</th>
+                            <th>مبلغ خرید</th>
+                            <th>درصد برگشتی</th>
+                            <th>مبلغ برگشتی به کیف پول</th>
+                        </tr>
+                        {% for transaction in user_searched.get_transactions %}
+                            <tr>
+                                <td>{{ transaction.number_id }}</td>
+                                <td class="datetime-convert">{{ transaction.created_at }}</td>
+                                <td>
+                                    <span class="price-el">{{ transaction.amount }}</span>
+                                    <span>تومان</span>
+                                </td>
+                                <td>{{ transaction.discount_percentage }}</td>
+                                <td>
+                                    <span class="price-el">{{ transaction.amount_refund }}</span>
+                                    <span>تومان</span>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr class="container-not-found-base">
+                                <td colspan="100">چیزی یافت نشد</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </section>
+                <form action="{% url 'club:wallet_withdraw' user_id=user_searched.id %}" method="post">
+                    {% csrf_token %}
+                    <div class="deficit-amount p-2 d-flex justify-content-end">
+                        <input type="text" name="amount" class="amount ms-2" value="{{ user_searched.get_wallet.amount }}">
+                        <button class="deduct-amount-button">کسروجه</button>
+                    </div>
+                </form>
+            {% endif %}
+        </main>
+    </div>
+{% endblock %}
+

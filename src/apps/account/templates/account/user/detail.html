@@ -1,0 +1,92 @@
+{% extends 'base/base_template.html' %}
+{% load static %}
+
+{% block Title %}
+    جزئیات کاربر - user.get_full_name
+{% endblock %}
+
+{% block Link %}
+    <link rel="stylesheet" href="{% static 'styles/main.css' %}">
+{% endblock %}
+
+{% block Content %}
+    <div class="container">
+        <main class="main">
+            <h5 class="main-title d-flex justify-content-between">مشخصات کاربر
+                <span class="back-btn">
+                    <i class="fa fa-angle-left"></i>
+                </span>
+            </h5>
+            <section class="user-information">
+                <div class="d-flex flex-wrap">
+                    <div class="col-12 col-md-3 p-1">
+                        <div class="user-information-item">
+                            <span class="title">شماره مشتری:</span>
+                            <span>{{ user.get_number_id }}</span>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3 p-1">
+                        <div class="user-information-item">
+                            <span class="title">نام و نام خانوادگی:</span>
+                            <span>{{ user.get_full_name }}</span>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3 p-1">
+                        <div class="user-information-item">
+                            <span class="title">شماره همراه:</span>
+                            <span>{{ user.get_raw_phonenumber }}</span>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3 p-1">
+                        <div class="user-information-item">
+                            <span class="title">مبلع کیف پول:</span>
+                            <span>
+                                <span class="price-el">{{ user.get_wallet.amount }}</span>
+                                <span>تومان</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="table-two col-12 col-lg-12 ">
+                <table class="table">
+                    <tr>
+                        <th>کد تراکنش</th>
+                        <th>تاریخ خرید</th>
+                        <th>مبلغ خرید</th>
+                        <th>درصد برگشتی</th>
+                        <th>مبلغ برگشتی به کیف پول</th>
+                    </tr>
+                    {% for transaction in user.get_transactions %}
+                        <tr>
+                            <td>{{ transaction.number_id }}</td>
+                            <td class="datetime-convert">{{ transaction.created_at }}</td>
+                            <td>
+                                <span class="price-el">{{ transaction.amount }}</span>
+                                <span>تومان</span>
+                            </td>
+                            <td>{{ transaction.discount_percentage }}</td>
+                            <td>
+                                <span class="price-el">{{ transaction.amount_refund }}</span>
+                                <span>تومان</span>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr class="container-not-found-base">
+                            <td colspan="100">چیزی یافت نشد</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </section>
+
+            <div class="btn-sum">
+                <span>جمع کل کیف پول:</span>
+                <span style="font-weight:bold ;">
+                    <span class="price-el">{{ user.get_wallet.amount }}</span>
+                    <span>تومان</span>
+                </span>
+            </div>
+        </main>
+    </div>
+{% endblock %}

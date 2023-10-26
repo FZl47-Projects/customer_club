@@ -1,0 +1,78 @@
+{% extends 'base/base_template.html' %}
+{% load static %}
+
+{% block Title %}
+    ورود - login
+{% endblock %}
+
+{% block Link %}
+    <link rel="stylesheet" href="{% static 'styles/login-register/main.css' %}">
+{% endblock %}
+
+{% block Content %}
+    <section class="home">
+        <div class="form_container">
+            <!-- فرم لاگین -->
+            <div class="form login_form active">
+                <form id="formone" method="post">
+                    {% csrf_token %}
+                    <h2>ورود</h2>
+
+                    <div class="input_box">
+                        <input type="text" placeholder="شماره موبایل را وارد کنید" required name="phonenumber"/>
+                        <i class="fa fa-phone email"></i>
+                    </div>
+                    <div class="input_box">
+                        <input type="password" placeholder="رمز عبور را وارد کنید" required name="password"/>
+                        <i class="fa fa-lock password"></i>
+                        <i class="uil uil-eye-slash pw_hide"></i>
+                    </div>
+
+                    <div class="option_field">
+                      <span class="checkbox">
+                        <label for="check">مرا به خاطر بسپار</label>
+                        <input type="checkbox" id="check" name="remember_me" checked/>
+                      </span>
+                        <a href="#" class="forgot_pw">آیا رمز را فراموش کرده اید؟</a>
+                    </div>
+                    <button class="button jjj">ورود</button>
+                    <div class="login_signup d-none">
+                        تاحالا ثبت نام نکردی؟
+                        &nbsp;
+                        <a href="#" id="signup">ثبت نام</a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- فرم ثبت نام -->
+            <div class="form signup_form">
+                <form action="#" id="formtwo">
+                    <h2>ثبت نام</h2>
+
+                    <div class="input_box">
+                        <input type="text" placeholder="شماره موبایل را وارد کنید" required/>
+                        <i class="fa fa-phone email"></i>
+                    </div>
+                    <div class="input_box">
+                        <input type="password" placeholder="پسورد را وارد کنید " id="passwordsignup" required/>
+                        <i class="fa fa-lock password"></i>
+                        <i class="uil uil-eye-slash pw_hide"></i>
+                    </div>
+                    <div class="input_box">
+                        <input type="password" placeholder="تکرار پسورد" required/>
+                        <i class="fa fa-lock password"></i>
+                        <i class="uil uil-eye-slash pw_hide"></i>
+                    </div>
+
+                    <button class="button">ثبت نام</button>
+
+                    <div class="login_signup">قبلا ثبت نام کرده اید؟<a href="#" id="login">ورود</a></div>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block Script %}
+    <script src="{% static 'scripts/login-register/main.js' %}"></script>
+{% endblock %}

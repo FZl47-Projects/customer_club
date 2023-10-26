@@ -1,0 +1,234 @@
+
+.main {
+    padding: 10px 0;
+}
+
+.main .main-title {
+    color: rgb(87, 86, 86);
+    padding: 5px 0;
+}
+
+.main-form .form-up {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.main-form .form-up .form-item .input-title {
+    color: rgb(87, 86, 86);
+    padding: 6px 0;
+    font-size: 14px;
+}
+
+.main-form .form-up .form-item input {
+    border: 1px solid rgb(161, 161, 161);
+    outline: none;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    padding: 5px 10px;
+    color: black;
+    font-size: 13px;
+    width: 100%;
+}
+
+.main-form .form-up .form-item input:focus {
+    border: 2px solid rgb(85, 147, 191);
+}
+
+.main-form .form-up .register-btn .register {
+    width: 100%;
+    background: rgb(85, 147, 191);
+    color: #fff;
+    font-size: 14px;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
+
+.table-two {
+    height: 400px;
+    overflow-y: scroll;
+    margin: auto;
+    padding: 15px;
+    /*Track*//*Handle*//*Handleonhover*/
+    border: 1px solid rgb(161, 161, 161);
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
+.table-two::-webkit-scrollbar {
+    height: 3px;
+    width: 3px;
+    background-color: transparent;
+}
+
+.table-two::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.table-two::-webkit-scrollbar-thumb {
+    background: rgb(85, 147, 191);
+    width: 3px;
+    height: 3px;
+    border-radius: 100px;
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    -ms-border-radius: 100px;
+    -o-border-radius: 100px;
+}
+
+.table-two::-webkit-scrollbar-thumb:hover {
+    background: #00abb4;
+}
+
+.table-two .add-button {
+    padding: 20px 10px;
+}
+
+.table-two .add-button .inner-add-button {
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    background-color: #181818;
+    cursor: pointer;
+}
+
+.table-two .add-button .inner-add-button .text {
+    color: #fff;
+    font-size: 12px;
+    padding-right: 5px;
+}
+
+.table-two th {
+    color: rgb(87, 86, 86);;
+    font-size: 13px;
+}
+
+table td {
+
+    color: rgb(0, 0, 0);
+    text-align: center;
+    font-size: 12px;
+    padding: 20px !important;
+}
+
+table th {
+
+    color: rgb(0, 0, 0);
+    text-align: center;
+}
+
+.user-information .user-information-item {
+    padding: 3px;
+}
+
+.user-information .user-information-item span:nth-child(1) {
+    color: rgb(63, 63, 63);
+    font-size: 13px;
+}
+
+.user-information .user-information-item span:nth-child(2) {
+    color: rgb(63, 63, 63);
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.btn-sum {
+    background: rgb(85, 147, 191);
+    padding: 10px;
+    color: #fff;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+@media (min-width: 650px) {
+    .user-information {
+        padding: 30px 0;
+    }
+
+    .table-two {
+        height: 450px;
+    }
+}
+
+.name-user a {
+    color: rgb(85, 147, 191);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.form-search .btn-search {
+    background: rgb(85, 147, 191);
+    /* padding: 8px 10px; */
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border: none;
+    padding: 8px 12px;
+}
+
+.form-search input::placeholder {
+    font-size: 16px;
+}
+
+.form-search input {
+    font-size: 14px;
+    padding: 4px 10px;
+}
+
+input {
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    outline: none;
+    border: 1px solid gray;
+}
+
+.form-search .btn-search img {
+    width: 15px;
+    height: 15px;
+    filter: grayscale(50%);
+}
+
+input:focus {
+    border: 2px solid rgb(85, 147, 191) !important;
+}
+
+.deficit-amount .deduct-amount-button {
+    background: rgb(85, 147, 191);
+    color: #fff;
+    font-size: 14px;
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
+.back-btn {
+    cursor: pointer;
+    display: inline-block;
+    width: 50px;
+    text-align: center;
+}

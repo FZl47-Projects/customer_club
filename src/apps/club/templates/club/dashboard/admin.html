@@ -1,0 +1,99 @@
+{% extends 'base/base_template.html' %}
+{% load static %}
+
+{% block Title %}
+    داشبورد ادمین
+{% endblock %}
+
+
+{% block Link %}
+    <link rel="stylesheet" href="{% static 'styles/main.css' %}">
+{% endblock %}
+
+
+{% block Content %}
+    <div class="container">
+        <main class="main">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="main-title">پنل ادمین</h5>
+                <a href="{% url 'account:logout' %}" class="text-decoration-none btn btn-outline-danger">
+                    خروج
+                    <i class="fa fa-sign-out-alt"></i>
+                </a>
+            </div>
+            <hr>
+            <section class="content">
+
+                <form class="form-search">
+                    <input
+                            type="text"
+                            name="search"
+                            class="input-search"
+                            placeholder="جستجو..."
+                            value="{{ request.GET.search }}"
+                    />
+                    <button class="btn-search text-white">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </form>
+
+                <section class="user-information">
+                    <div class="d-flex flex-wrap">
+                        <div class="col-12 col-md-3 p-1">
+                            <div class="user-information-item">
+                                <span>عنوان فروشگاه :</span>
+                                <span>{{ club_info.title }}</span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3 p-1">
+                            <div class="user-information-item">
+                                <span>شماره تماس :</span>
+                                <span>{{ club_info.phone|default:'-' }}</span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3 p-1 d-none">
+                            <div class="user-information-item">
+                                <span>پترن اصلی</span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3 p-1">
+                            <div class="user-information-item">
+                                <span class="title">درصد تخفیف :</span>
+                                <span>{{ club_config.discount_percentage }}%</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="table-two col-12 col-lg-12  ">
+                    <table class="table">
+                        <tr>
+                            <th>شماره مشتری</th>
+                            <th>نام و نام خانوادگی</th>
+                            <th>شماره همراه</th>
+                            <th>مبلغ کیف پول</th>
+                        </tr>
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ user.get_number_id }}</td>
+                                <td class="name-user">
+                                    <a href="{{ user.get_absolute_url }}">{{ user.get_full_name }}</a>
+                                </td>
+                                <td>{{ user.get_raw_phonenumber }}</td>
+                                <td>{{ user.get_wallet_amount }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr class="container-not-found-base">
+                                <td colspan="1000">چیزی یافت نشد</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </section>
+            </section>
+        </main>
+    </div>
+{% endblock %}
+
+
+{% block Script %}
+
+{% endblock %}
