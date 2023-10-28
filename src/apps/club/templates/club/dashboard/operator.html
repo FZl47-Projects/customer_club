@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block Content %}
-    <div class="container">
+    <div class="container my-2">
         <main class="main" style="padding-bottom:10px ;">
             <div class="d-flex justify-content-between align-items-center">
                 <h5 class="main-title">پنل اپراتور</h5>
@@ -46,7 +46,8 @@
                     <div class="col-12 col-md-3 p-1">
                         <div class="form-item">
                             <div class="input-title">مبلغ خرید:</div>
-                            <input type="number" name="amount" required>
+                            <input type="number" name="amount" input-amount-spread spread-label="amount-spread-label" required>
+                            <p id="amount-spread-label" class="text-left font-80 mt-1"></p>
                         </div>
                     </div>
                     <div class="col-12 p-1" style="display:flex ;align-items: end;justify-content: start;">
@@ -135,9 +136,10 @@
                 <form action="{% url 'club:wallet_withdraw' user_id=user_searched.id %}" method="post">
                     {% csrf_token %}
                     <div class="deficit-amount p-2 d-flex justify-content-end">
-                        <input type="text" name="amount" class="amount ms-2" value="{{ user_searched.get_wallet.amount }}">
+                        <input type="text" name="amount" class="amount ms-2" value="{{ user_searched.get_wallet.amount }}" input-amount-spread spread-label="amount-withdraw-spread-label">
                         <button class="deduct-amount-button">کسروجه</button>
                     </div>
+                    <p id="amount-withdraw-spread-label" class="text-left font-80 m-1"></p>
                 </form>
             {% endif %}
         </main>

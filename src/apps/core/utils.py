@@ -10,7 +10,7 @@ from django_q.tasks import async_task
 from django.contrib import messages
 
 
-def random_str(size=10, chars=string.ascii_lowercase + string.ascii_uppercase + string.digits):
+def random_str(size=12, chars=string.ascii_lowercase + string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
 

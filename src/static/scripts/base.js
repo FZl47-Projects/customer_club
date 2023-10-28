@@ -209,5 +209,24 @@ if (backBtn) {
 }
 
 
+// spread amount input
+
+let all_spread_amount_input = document.querySelectorAll('[input-amount-spread]')
+for (let inp of all_spread_amount_input) {
+    spread_inp_value(inp)
+    inp.addEventListener('input', function () {
+        spread_inp_value(this)
+    })
+}
+
+
+function spread_inp_value(inp) {
+    let label_id = inp.getAttribute('spread-label')
+    let label = document.getElementById(label_id)
+    label.innerText = numberWithCommas(inp.value)
+    if(label.innerText){
+        label.innerText += ' تومان '
+    }
+}
 
 
