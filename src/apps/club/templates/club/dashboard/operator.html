@@ -136,7 +136,7 @@
                 <form action="{% url 'club:wallet_withdraw' user_id=user_searched.id %}" method="post">
                     {% csrf_token %}
                     <div class="deficit-amount p-2 d-flex justify-content-end">
-                        <input type="text" name="amount" class="amount ms-2" value="{{ user_searched.get_wallet.amount }}" input-amount-spread spread-label="amount-withdraw-spread-label">
+                        <input type="number" name="amount" class="amount ms-2" value="{{ user_searched.get_wallet.amount }}" input-amount-spread spread-label="amount-withdraw-spread-label">
                         <button class="deduct-amount-button">کسروجه</button>
                     </div>
                     <p id="amount-withdraw-spread-label" class="text-left font-80 m-1"></p>
