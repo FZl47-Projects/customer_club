@@ -1,6 +1,7 @@
 # using Django 4.1
 
 import os
+import json
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -132,8 +133,7 @@ Q_CLUSTER = {
 
 MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
 
-SMS_CONFIG = {
-    'API_KEY': os.environ.get('SMS_API_KEY'),
-    'API_URL': 'http://rest.ippanel.com/v1/messages/patterns/send',
-    'ORIGINATOR': '983000505'
-}
+# SMS CONFIG
+SMS_CONFIG_ADDRESS = BASE_DIR / 'sms_config.json'
+with open(SMS_CONFIG_ADDRESS) as f:
+    SMS_CONFIG = json.load(f)

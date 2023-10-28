@@ -1,0 +1,8 @@
+{
+  "API_URL": "http://rest.ippanel.com/v1/messages/patterns/send",
+  "API_KEY": "xxx-xxx-xxx-xxx",
+  "ORIGINATOR": "983000505",
+  "PATTERNS": {
+      "TRANSACTION_CREATED": "vuw7wzmuvtcaz42"
+  }
+}
