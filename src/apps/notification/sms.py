@@ -14,7 +14,7 @@ class NotificationUser:
         if not pattern:
             warnings.warn("Warning - pattern not found")
         send_sms(phonenumber, pattern, {
-            'amount': notification.kwargs['amount']
+            'amount': str(notification.kwargs['amount'])
         })
 
 
