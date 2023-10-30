@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.shortcuts import render, Http404, redirect, get_object_or_404
+from django.shortcuts import render, Http404, redirect, get_object_or_404, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.db.models import Q, Value
@@ -85,14 +85,17 @@ class TransactionAdd(View):
 
     def get_or_create_user(self, data):
         phonenumber = data.get('phonenumber')
+        created = False
         try:
             user = User.normal_user.get(phonenumber=add_prefix_phonenum(phonenumber))
         except User.DoesNotExist:
             first_name = data.get('first_name')
             last_name = data.get('last_name')
-            user = User.objects.create(phonenumber=phonenumber, password=random_str(15), first_name=first_name,
-                                       last_name=last_name)
-        return user
+            user = User(phonenumber=phonenumber, first_name=first_name, last_name=last_name)
+            user.set_password(random_str(20))
+            user.save()
+            created = True
+        return user, created
 
     @user_role_required_cbv(['operator_user'])
     def post(self, request):
@@ -102,7 +105,7 @@ class TransactionAdd(View):
         if form_validate_err(request, f) is False:
             return redirect('club:dashboard')
         data = f.cleaned_data
-        user = self.get_or_create_user(data)
+        user, created = self.get_or_create_user(data)
         wallet = user.get_wallet()
         amount = data.get('amount')
         amount_refund = models.Transaction.get_amount_refund(amount)
@@ -116,6 +119,9 @@ class TransactionAdd(View):
         wallet.amount += amount_refund
         wallet.save()
         messages.success(request, 'تراکنش خرید با موفقیت ثبت شد')
+        if not created:
+            # redirect to dashboard with user
+            return redirect(f"{reverse('club:dashboard')}?search={user.get_raw_phonenumber()}")
         return redirect('club:dashboard')
 
 
@@ -134,7 +140,7 @@ class WithdrawWallet(LoginRequiredMixin, View):
             return redirect(referer_url)
         amount = int(amount)
         # check wallet amount
-        if amount > wallet.amount:
+        if amount > wallet.amount or amount == 0:
             messages.error(request, 'موجودی کیف پول کافی نیست')
             return redirect(referer_url)
         # set new amount
