@@ -48,38 +48,65 @@
                     </div>
                 </div>
             </section>
-
-            <section class="table-two col-12 col-lg-12 ">
-                <table class="table">
-                    <tr>
-                        <th>کد تراکنش</th>
-                        <th>تاریخ خرید</th>
-                        <th>مبلغ خرید</th>
-                        <th>درصد برگشتی</th>
-                        <th>مبلغ برگشتی به کیف پول</th>
-                    </tr>
-                    {% for transaction in user.get_transactions %}
+            <div>
+                <h6 class="text-center">تراکنش های افزایش کیف پول</h6>
+                <section class="table-two col-12 col-lg-12 ">
+                    <table class="table">
                         <tr>
-                            <td>{{ transaction.number_id }}</td>
-                            <td class="datetime-convert">{{ transaction.created_at }}</td>
-                            <td>
-                                <span class="price-el">{{ transaction.amount }}</span>
-                                <span>تومان</span>
-                            </td>
-                            <td>{{ transaction.discount_percentage }}</td>
-                            <td>
-                                <span class="price-el">{{ transaction.amount_refund }}</span>
-                                <span>تومان</span>
-                            </td>
+                            <th>کد تراکنش</th>
+                            <th>تاریخ خرید</th>
+                            <th>مبلغ خرید</th>
+                            <th>درصد برگشتی</th>
+                            <th>مبلغ برگشتی به کیف پول</th>
                         </tr>
-                        {% empty %}
-                        <tr class="container-not-found-base">
-                            <td colspan="100">چیزی یافت نشد</td>
+                        {% for transaction in user.get_transactions %}
+                            <tr>
+                                <td>{{ transaction.number_id }}</td>
+                                <td class="datetime-convert">{{ transaction.created_at }}</td>
+                                <td>
+                                    <span class="price-el">{{ transaction.amount }}</span>
+                                    <span>تومان</span>
+                                </td>
+                                <td>{{ transaction.discount_percentage }}</td>
+                                <td>
+                                    <span class="price-el">{{ transaction.amount_refund }}</span>
+                                    <span>تومان</span>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr class="container-not-found-base">
+                                <td colspan="100">چیزی یافت نشد</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </section>
+            </div>
+            <div class="my-4 pb-5">
+                <h6 class="text-center">تراکنش های کسر از کیف پول</h6>
+                <section class="table-two col-12 col-lg-12 ">
+                    <table class="table">
+                        <tr>
+                            <th>کد تراکنش</th>
+                            <th>تاریخ</th>
+                            <th>مبلغ</th>
                         </tr>
-                    {% endfor %}
-                </table>
-            </section>
-
+                        {% for spend in user.get_spends %}
+                            <tr>
+                                <td>{{ spend.number_id }}</td>
+                                <td class="datetime-convert">{{ spend.created_at }}</td>
+                                <td>
+                                    <span class="price-el">{{ spend.amount }}</span>
+                                    <span>تومان</span>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr class="container-not-found-base">
+                                <td colspan="100">چیزی یافت نشد</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </section>
+            </div>
             <div class="btn-sum">
                 <span>جمع کل کیف پول:</span>
                 <span style="font-weight:bold ;">

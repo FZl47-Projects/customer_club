@@ -9,6 +9,17 @@
     <link rel="stylesheet" href="{% static 'styles/main.css' %}">
 {% endblock %}
 
+{% block Style %}
+    <style>
+        .loading-input-phonenumber {
+            position: absolute;
+            left: 33px;
+            top: calc(50% + 16px);
+            transform: scale(.6);
+        }
+    </style>
+{% endblock %}
+
 {% block Content %}
     <div class="container my-2">
         <main class="main" style="padding-bottom:10px ;">
@@ -24,6 +35,18 @@
             <form action="{% url 'club:transaction_add' %}" method="post" class="main-form p-2">
                 {% csrf_token %}
                 <div class="form-up">
+                    <div class="col-12 col-md-3 p-1 d-flex justify-content-between">
+                        <div class="col-12">
+                            <div class="form-item position-relative">
+                                <div class="input-title">شماره موبایل:</div>
+                                <input type="text" name="phonenumber" required>
+                                <div class="loading-input-phonenumber" id="loading-input-phonenumber"></div>
+                            </div>
+                            <div id="user-detail-search-link" class="d-none text-left font-75">
+                                <a href="#">مشاهده سوابق</a>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-12 col-md-3 p-1">
                         <div class="form-item">
                             <div class="input-title">نام :</div>
@@ -38,15 +61,9 @@
                     </div>
                     <div class="col-12 col-md-3 p-1">
                         <div class="form-item">
-                            <div class="input-title">شماره موبایل:</div>
-                            <input type="text" name="phonenumber" required>
-
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-3 p-1">
-                        <div class="form-item">
                             <div class="input-title">مبلغ خرید:</div>
-                            <input type="number" name="amount" input-amount-spread spread-label="amount-spread-label" required>
+                            <input type="number" name="amount" input-amount-spread spread-label="amount-spread-label"
+                                   required>
                             <p id="amount-spread-label" class="text-left font-80 mt-1"></p>
                         </div>
                     </div>
@@ -71,78 +88,149 @@
                     <i class="fa fa-search"></i>
                 </button>
             </form>
-            {% if user_searched %}
-                <section class="user-information p-2">
-                    <div class="d-flex flex-wrap">
-                        <div class="col-12 col-md-3 p-1">
-                            <div class="user-information-item">
-                                <span class="title">شماره مشتری:</span>
-                                <span>{{ user_searched.get_number_id }}</span>
+            <div id="user-searched">
+                {% if user_searched %}
+                    <section class="user-information p-2">
+                        <div class="d-flex flex-wrap">
+                            <div class="col-12 col-md-3 p-1">
+                                <div class="user-information-item">
+                                    <span class="title">شماره مشتری:</span>
+                                    <span>{{ user_searched.get_number_id }}</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-12 col-md-3 p-1">
-                            <div class="user-information-item">
-                                <span class="title">نام و نام خانوادگی:</span>
-                                <span>{{ user_searched.get_full_name }}</span>
+                            <div class="col-12 col-md-3 p-1">
+                                <div class="user-information-item">
+                                    <span class="title">نام و نام خانوادگی:</span>
+                                    <span>{{ user_searched.get_full_name }}</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-12 col-md-3 p-1">
-                            <div class="user-information-item">
-                                <span class="title">شماره همراه:</span>
-                                <span>{{ user_searched.get_raw_phonenumber }}</span>
+                            <div class="col-12 col-md-3 p-1">
+                                <div class="user-information-item">
+                                    <span class="title">شماره همراه:</span>
+                                    <span>{{ user_searched.get_raw_phonenumber }}</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-12 col-md-3 p-1">
-                            <div class="user-information-item">
-                                <span class="title">جمع کیف پول:</span>
-                                <span>
+                            <div class="col-12 col-md-3 p-1">
+                                <div class="user-information-item">
+                                    <span class="title">جمع کیف پول:</span>
+                                    <span>
                                     <span class="price-el">{{ user_searched.get_wallet.amount }}</span>
                                     <span>تومان</span>
                                 </span>
+                                </div>
                             </div>
                         </div>
+                    </section>
+                    <div class="my-3">
+                        <form action="{% url 'club:wallet_spend' user_id=user_searched.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="deficit-amount p-2 d-flex justify-content-end">
+                                <input type="number" name="amount" class="amount ms-2"
+                                       value="{{ user_searched.get_wallet.amount }}" input-amount-spread
+                                       spread-label="amount-withdraw-spread-label">
+                                <button class="deduct-amount-button">کسروجه</button>
+                            </div>
+                            <p id="amount-withdraw-spread-label" class="text-left font-80 m-1"></p>
+                        </form>
                     </div>
-                </section>
-                <section class="table-two col-12 col-lg-12 ">
-                    <table class="table">
-                        <tr>
-                            <th>کد تراکنش</th>
-                            <th>تاریخ خرید</th>
-                            <th>مبلغ خرید</th>
-                            <th>درصد برگشتی</th>
-                            <th>مبلغ برگشتی به کیف پول</th>
-                        </tr>
-                        {% for transaction in user_searched.get_transactions %}
-                            <tr>
-                                <td>{{ transaction.number_id }}</td>
-                                <td class="datetime-convert">{{ transaction.created_at }}</td>
-                                <td>
-                                    <span class="price-el">{{ transaction.amount }}</span>
-                                    <span>تومان</span>
-                                </td>
-                                <td>{{ transaction.discount_percentage }}</td>
-                                <td>
-                                    <span class="price-el">{{ transaction.amount_refund }}</span>
-                                    <span>تومان</span>
-                                </td>
-                            </tr>
-                            {% empty %}
-                            <tr class="container-not-found-base">
-                                <td colspan="100">چیزی یافت نشد</td>
-                            </tr>
-                        {% endfor %}
-                    </table>
-                </section>
-                <form action="{% url 'club:wallet_withdraw' user_id=user_searched.id %}" method="post">
-                    {% csrf_token %}
-                    <div class="deficit-amount p-2 d-flex justify-content-end">
-                        <input type="number" name="amount" class="amount ms-2" value="{{ user_searched.get_wallet.amount }}" input-amount-spread spread-label="amount-withdraw-spread-label">
-                        <button class="deduct-amount-button">کسروجه</button>
+                    <div class="my-4">
+                        <h6 class="text-center">تراکنش های افزایش کیف پول</h6>
+                        <section class="table-two col-12 col-lg-12 ">
+                            <table class="table">
+                                <tr>
+                                    <th>کد تراکنش</th>
+                                    <th>تاریخ خرید</th>
+                                    <th>مبلغ خرید</th>
+                                    <th>درصد برگشتی</th>
+                                    <th>مبلغ برگشتی به کیف پول</th>
+                                </tr>
+                                {% for transaction in user_searched.get_transactions %}
+                                    <tr>
+                                        <td>{{ transaction.number_id }}</td>
+                                        <td class="datetime-convert">{{ transaction.created_at }}</td>
+                                        <td>
+                                            <span class="price-el">{{ transaction.amount }}</span>
+                                            <span>تومان</span>
+                                        </td>
+                                        <td>{{ transaction.discount_percentage }}</td>
+                                        <td>
+                                            <span class="price-el">{{ transaction.amount_refund }}</span>
+                                            <span>تومان</span>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr class="container-not-found-base">
+                                        <td colspan="100">چیزی یافت نشد</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </section>
                     </div>
-                    <p id="amount-withdraw-spread-label" class="text-left font-80 m-1"></p>
-                </form>
-            {% endif %}
+                    <div class="my-4">
+                        <h6 class="text-center">تراکنش های کسر از کیف پول</h6>
+                        <section class="table-two col-12 col-lg-12 ">
+                            <table class="table">
+                                <tr>
+                                    <th>کد تراکنش</th>
+                                    <th>تاریخ</th>
+                                    <th>مبلغ</th>
+                                </tr>
+                                {% for spend in user_searched.get_spends %}
+                                    <tr>
+                                        <td>{{ spend.number_id }}</td>
+                                        <td class="datetime-convert">{{ spend.created_at }}</td>
+                                        <td>
+                                            <span class="price-el">{{ spend.amount }}</span>
+                                            <span>تومان</span>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr class="container-not-found-base">
+                                        <td colspan="100">چیزی یافت نشد</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </section>
+                    </div>
+                {% endif %}
+            </div>
+
         </main>
     </div>
 {% endblock %}
 
+{% block Script %}
+    <script>
+        let container_user_search = document.getElementById('user-searched')
+        let inp_phonenumber = document.querySelector('input[name="phonenumber"]')
+        inp_phonenumber.addEventListener('change', function () {
+            let user_link = document.getElementById('user-detail-search-link')
+            let phonenumber = this.value
+            let inp_loading = document.getElementById('loading-input-phonenumber')
+            createLoading(inp_loading, {
+                size: 'small'
+            })
+            sendAjax({
+                url: `/u/user/${phonenumber}/is-exists`,
+                method: 'get',
+                success: function (response) {
+                    removeLoading(inp_loading)
+                    user_link.classList.remove('d-none')
+                    user_link.querySelector('a').href = `/c/d?search=${phonenumber}`
+                },
+                error: function (e) {
+                    let status_code = e.status
+                    if (status_code == 500) {
+                        createNotify({
+                            title: 'ارور',
+                            message: 'اوه .. مشکلی پیش امده است',
+                            theme: 'error'
+                        })
+                    }
+                    user_link.classList.add('d-none')
+                    removeLoading(inp_loading)
+                }
+            })
+        })
+    </script>
+{% endblock %}

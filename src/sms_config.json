@@ -3,6 +3,7 @@
   "API_KEY": "xxx-xxx-xxx-xxx",
   "ORIGINATOR": "983000505",
   "PATTERNS": {
-      "TRANSACTION_CREATED": "vuw7wzmuvtcaz42"
+    "TRANSACTION_CREATED": "vuw7wzmuvtcaz42",
+    "SPENDING_WALLET": "2"
   }
 }

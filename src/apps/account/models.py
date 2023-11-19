@@ -108,4 +108,10 @@ class User(AbstractUser):
         return wallet
 
     def get_transactions(self):
-        return self.get_wallet().transaction_set.all()
+        return self.get_wallet().transaction_set.filter(is_showing=True)
+
+    def get_spends(self):
+        return self.get_wallet().spend_set.all()
+
+    def get_last_spend(self):
+        return self.get_wallet().spend_set.first()

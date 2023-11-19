@@ -1,10 +1,12 @@
 from django.contrib import messages
+from django.http import JsonResponse, HttpResponse
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, get_user_model, logout as logout_handler
 from apps.core.utils import add_prefix_phonenum, random_num, form_validate_err
 from apps.account.auth.decorators import user_role_required_cbv
+from . import serializers
 
 User = get_user_model()
 
@@ -12,7 +14,7 @@ User = get_user_model()
 class Login(View):
 
     def get(self, request):
-        return render(request,'account/login.html')
+        return render(request, 'account/login.html')
 
     def post(self, request):
         data = request.POST
@@ -63,3 +65,23 @@ class UserDetail(LoginRequiredMixin, View):
             'user': get_object_or_404(User, id=user_id)
         }
         return render(request, self.template_name, context)
+
+
+class UserDetailJson(LoginRequiredMixin, View):
+
+    @user_role_required_cbv(['operator_user'])
+    def get(self, request, phonenumber):
+        user = get_object_or_404(User, phonenumber=add_prefix_phonenum(phonenumber))
+        return JsonResponse(
+            serializers.UserDetail(user).data,
+            safe=False
+        )
+
+
+class UserIsExists(LoginRequiredMixin, View):
+
+    @user_role_required_cbv(['operator_user'])
+    def get(self, request, phonenumber):
+        user = get_object_or_404(User, phonenumber=add_prefix_phonenum(phonenumber))
+        return HttpResponse()
+

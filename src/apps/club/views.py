@@ -125,7 +125,7 @@ class TransactionAdd(View):
         return redirect('club:dashboard')
 
 
-class WithdrawWallet(LoginRequiredMixin, View):
+class SpendWallet(LoginRequiredMixin, View):
 
     @user_role_required_cbv(['operator_user'])
     def post(self, request, user_id):
@@ -147,4 +147,8 @@ class WithdrawWallet(LoginRequiredMixin, View):
         wallet.amount -= amount
         wallet.save()
         messages.success(request, 'مبلغ با موفقیت از کیف پول کسر شد')
+        models.Spend.objects.create(
+            wallet=wallet,
+            amount=amount,
+        )
         return redirect(referer_url)

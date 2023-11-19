@@ -134,6 +134,6 @@ Q_CLUSTER = {
 MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
 
 # SMS CONFIG
-SMS_CONFIG_ADDRESS = BASE_DIR / 'sms_config.json'
+SMS_CONFIG_ADDRESS = BASE_DIR / 'SMS_CONFIG.json'
 with open(SMS_CONFIG_ADDRESS) as f:
     SMS_CONFIG = json.load(f)

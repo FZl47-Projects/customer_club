@@ -57,6 +57,7 @@ body {
 
 .loading-element-parent {
     position: relative;
+    border-color: #10e574;
 }
 
 .loading-element {
@@ -101,20 +102,16 @@ body {
 
 .loading-circle-big {
     border: 6px solid transparent;
-    border-top-width: 6px;
-    border-top-style: solid;
-    border-right-width: 6px;
-    border-right-style: solid;
+    border-right-color: inherit;
+    border-top-color: inherit;
     width: 75px;
     height: 75px;
 }
 
 .loading-circle-normal {
     border: 4px solid transparent;
-    border-top-width: 4px;
-    border-top-style: solid;
-    border-right-width: 4px;
-    border-right-style: solid;
+    border-right-color: inherit;
+    border-top-color: inherit;
     width: 50px;
     height: 50px;
 }
@@ -122,12 +119,18 @@ body {
 
 .loading-circle-small {
     border: 3px solid transparent;
-    border-top-width: 3px;
-    border-top-style: solid;
-    border-right-width: 3px;
-    border-right-style: solid;
+    border-right-color: inherit;
+    border-top-color: inherit;
     width: 25px;
     height: 25px;
+}
+
+.loading-circle-tiny {
+    border: 2px solid transparent;
+    border-right-color: inherit;
+    border-top-color: inherit;
+    width: 13px;
+    height: 13px;
 }
 
 @keyframes loading-circle-animation {
