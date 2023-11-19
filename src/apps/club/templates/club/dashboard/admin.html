@@ -62,6 +62,23 @@
                                 <span>{{ club_config.discount_percentage }}%</span>
                             </div>
                         </div>
+                        <div class="col-12 col-md-3 p-1">
+                            <div class="user-information-item">
+                                <span class="title">انقضای تراکنش ها :</span>
+                                <span>{% if club_config.discount_has_expire %}فعال{% else %}غیر فعال{% endif %}</span>
+                            </div>
+                        </div>
+                        {% if club_config.discount_has_expire %}
+                            <div class="col-12 col-md-3 p-1">
+                                <div class="user-information-item">
+                                    <span class="title">زمان انقضا :</span>
+                                    <span> هر
+                                        {{ club_config.discount_expire_day }}
+                                        روز
+                                    </span>
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
                 </section>
                 <section class="table-two col-12 col-lg-12  ">

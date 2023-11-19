@@ -44,12 +44,16 @@ def create_notification_spend(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=models.ClubConfig)
 def modify_schedule_expire_transactions(sender, instance, created, **kwargs):
+
+    def delete_schedule_task():
+        Schedule.objects.filter(name='schedule_task_check_expire_time_transactions').delete()
+
     if instance.discount_has_expire:
+        delete_schedule_task()
         Schedule.objects.create(
             name='schedule_task_check_expire_time_transactions',
             func='apps.club.tasks.delete_expired_transactions',
             schedule_type=Schedule.DAILY
         )
     else:
-        Schedule.objects.filter(name='schedule_task_check_expire_time_transactions').delete()
-
+        delete_schedule_task()

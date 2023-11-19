@@ -9,6 +9,7 @@ urlpatterns = [
     path('', include('apps.public.urls', namespace='public')),
     path('u/', include('apps.account.urls', namespace='account')),
     path('c/', include('apps.club.urls', namespace='club')),
+
 ]
 
 if settings.DEBUG:
