@@ -109,15 +109,15 @@ class TransactionAdd(View):
         wallet = user.get_wallet()
         amount = data.get('amount')
         amount_refund = models.Transaction.get_amount_refund(amount)
+        # update amount wallet
+        wallet.amount += amount_refund
+        wallet.save()
         models.Transaction.objects.create(
             wallet=wallet,
             amount=amount,
             amount_refund=amount_refund,
             discount_percentage=models.Transaction.get_discount_percentage()
         )
-        # update amount wallet
-        wallet.amount += amount_refund
-        wallet.save()
         messages.success(request, 'تراکنش خرید با موفقیت ثبت شد')
         if not created:
             # redirect to dashboard with user
